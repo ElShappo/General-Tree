@@ -66,3 +66,41 @@ TEST_CASE("general test")
         cout << buffer1[i]->getValue() << endl;
     */
 }
+
+TEST_CASE("general test[vector<int>]")
+{
+    Node<int> *root = newNode(10);
+
+    CHECK(root->size() == 0);
+    CHECK_THROWS(root->getChild(0));
+
+    vector<int> path;
+
+    path.push_back(0);
+
+    root->push(newNode(2), path);
+    root->push(newNode(34), path);
+    root->push(newNode(56), path);
+    root->push(newNode(100), path);
+
+    CHECK(root->size() == 4);
+
+    path.push_back(1);
+
+    root->push(newNode(6874), path); // child for the element with path '[0][1]' is added
+    root->push(newNode(6875), path);
+    root->push(newNode(79557), path);
+
+    path.push_back(0);
+
+    CHECK(root->size() == 4);
+    root->erase(path);
+
+    CHECK(root->find(path)->getValue() == 6875);
+
+    path[path.size()-1] = 1;
+    CHECK(root->find(path)->getValue() == 79557);
+
+    CHECK_THROWS(root->find("[0][1][2]"));
+    CHECK_THROWS(root->findValue(root, 6874, "[0][2][3][0][1]"));
+}

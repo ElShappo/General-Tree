@@ -104,6 +104,7 @@ class Node
                     q.pop_front();
 
                     if (value != NULL)
+                    // modification for finding node with specific value
                     {
                         if (p->value == *value)
                             buffer.push_back(p);
@@ -119,7 +120,8 @@ class Node
                     n--;
 
                     if (iteration == 1 && !isEmpty(coordinates) )
-                    // // may also write get<vector<int>> as .empty is present in both STL-containers
+                    // modification for changing reading order
+                    // may also write get<vector<int>> as .empty is present in both STL-containers
                     {
                         vector<int> path(parseInstructions(coordinates));
                         deque<Node*> newDeque;
@@ -142,7 +144,10 @@ class Node
                     }
                 }
                 if (value == NULL)
+                // modification for finding node with specific value
+                {
                     cout << endl; // Print new line between two levels
+                }
             }
         }
 
@@ -242,6 +247,7 @@ class Node
         }
 
         Node* find(variant<string, vector<int> > coordinates)
+        // find node with such coordinates
         {
             if (isEmpty(coordinates))
                 throw NodeException("empty instructions list passed as an argument.");
@@ -266,7 +272,8 @@ class Node
         }
 
         void traversal(Node<T>* root, variant<string, vector<int>> coordinates = variant<string, vector<int>>() )
-        // incapsulates LevelOrderTraversal
+        // print all nodes according to the specified order which is set by coordinates
+        // here coordinates represent level 1 reading order
         {
             if (root == NULL)
                 throw NodeException("corrupted root passed as an argument.");
@@ -276,6 +283,7 @@ class Node
         }
 
         vector<Node*> findValue(Node* root, T value, variant<string, vector<int>> coordinates = variant<string, vector<int>>() )
+        // find all nodes with such value
         {
             vector<Node*> buffer;
             T* val = new T(value);
@@ -290,7 +298,7 @@ class Node
         }
 
         void push(Node<T>* buffer, variant<string, vector<int> > coordinates)
-        // [0][3][1][2] // 2nd index of first index
+        // push node at the place with the passed coordinates (new node will be the child of a node with these coordinates)
         {
             if (isEmpty(coordinates))
                 throw NodeException("empty instructions list passed as an argument.");
