@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Tree" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Tree" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Tree" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="Test">
+				<Option output="Tree" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="C:/Users/shaip/OneDrive/Desktop/Tree/" />
+			<Add directory="C:/Users/shaip/Downloads/SFML-2.5.1-windows-gcc-5.1.0-tdm-32-bit/SFML-2.5.1/include" />
+		</Compiler>
+		<Linker>
+			<Add directory="C:/Users/shaip/OneDrive/Desktop/Tree/" />
+			<Add directory="C:/Users/shaip/Downloads/SFML-2.5.1-windows-gcc-5.1.0-tdm-32-bit/SFML-2.5.1/lib" />
+		</Linker>
+		<Unit filename="main.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Node.hpp" />
+		<Unit filename="src/NodeException.hpp" />
+		<Unit filename="src/tests/test.cpp">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="vendor/catch.hpp">
+			<Option target="Test" />
+		</Unit>
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
