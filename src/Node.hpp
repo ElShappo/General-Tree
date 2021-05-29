@@ -4,7 +4,7 @@
 #include <vector>
 #include <regex>
 #include <deque>
-#include <bits/stdc++.h>
+#include <variant>
 #include "NodeException.hpp"
 
 using namespace std;
@@ -17,8 +17,15 @@ class Node
         T value;
         vector<Node*> children;
 
-        vector<int> parseInstructions(string instructions)
+        vector<int> parseInstructions(variant<string, vector<int> > coordinates)
         {
+            string instructions;
+
+            if (coordinates.index() == 1)
+                return get<vector<int>>(coordinates);
+            else
+                instructions = get<string>(coordinates);
+
             if (instructions.empty())
                 throw NodeException("cannot parse empty instruction list.");
 
@@ -39,8 +46,10 @@ class Node
             return path;
         }
 
-        void movePtr(Node* &start, vector<int> path)
+        void movePtr(Node* &start, variant<string, vector<int>> coordinates)
         {
+            vector<int> path = parseInstructions(coordinates);
+
             if (start->size() <= path[0])
                 throw NodeException("path out of range (path doesn't exist)");
 
