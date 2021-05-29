@@ -34,7 +34,7 @@ class Node
         T value;
         vector<Node*> children;
 
-        vector<int> parseInstructions(variant<string, vector<int> > coordinates)
+        vector<int> parseCoordinates(variant<string, vector<int> > coordinates)
         {
             string instructions;
 
@@ -65,7 +65,7 @@ class Node
 
         void movePtr(Node* &start, variant<string, vector<int>> coordinates)
         {
-            vector<int> path = parseInstructions(coordinates);
+            vector<int> path = parseCoordinates(coordinates);
 
             if (start->size() <= path[0])
                 throw NodeException("path out of range (path doesn't exist)");
@@ -123,7 +123,7 @@ class Node
                     // modification for changing reading order
                     // may also write get<vector<int>> as .empty is present in both STL-containers
                     {
-                        vector<int> path(parseInstructions(coordinates));
+                        vector<int> path(parseCoordinates(coordinates));
                         deque<Node*> newDeque;
                         vector<int> newPath(path); // new path won't contain first "[0]"
                         newPath.erase(newPath.begin());
@@ -159,7 +159,7 @@ class Node
             if (isEmpty(coordinates))
                 throw NodeException("empty instructions list passed as an argument.");
 
-            vector<int> path(parseInstructions(coordinates));
+            vector<int> path(parseCoordinates(coordinates));
             vector<int> parentPath(path);
 
             parentPath.pop_back();
@@ -183,7 +183,7 @@ class Node
                 throw NodeException("empty instructions list passed as an argument.");
 
             vector<T> str;
-            vector<int> path(parseInstructions(coordinates));
+            vector<int> path(parseCoordinates(coordinates));
             vector<int> new_path;
 
             for (int i=0; i<path.size(); ++i)
@@ -252,7 +252,7 @@ class Node
             if (isEmpty(coordinates))
                 throw NodeException("empty instructions list passed as an argument.");
 
-            vector<int> path(parseInstructions(coordinates));
+            vector<int> path(parseCoordinates(coordinates));
 
             Node<T>* temp = this;
 
