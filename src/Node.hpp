@@ -51,49 +51,6 @@ class Node
                 movePtr(start, path);
         }
 
-        void LevelOrderTraversal(Node<T>* root, vector<Node*> & buffer, T* value = NULL)
-        // Prints the n-ary tree level wise
-        // when necessary, can also find all Nodes with a particular value
-        {
-            if (root == NULL)
-                throw NodeException("corrupted root passed as an argument.");
-
-            if (!buffer.empty() )
-                throw NodeException("'LevelOrderTraversal' function requires passed buffer to be empty.");
-
-            // Standard level order traversal code
-            // using queue
-            queue<Node *> q;  // Create a queue
-            q.push(root); // Enqueue root
-            while (!q.empty())
-            {
-                int n = q.size();
-
-                // If this node has children
-                while (n > 0)
-                {
-                    // Dequeue an item from queue and print it
-                    Node* p = q.front();
-                    q.pop();
-
-                    if (value != NULL)
-                    {
-                        if (p->value == *value)
-                            buffer.push_back(p);
-                    }
-                    else
-                        cout << p->value << " ";
-
-                    // Enqueue all children of the dequeued item
-                    for (int i=0; i<p->children.size(); i++)
-                        q.push(p->children[i]);
-                    n--;
-                }
-                if (value == NULL)
-                    cout << endl; // Print new line between two levels
-            }
-        }
-
         void LevelArbitraryTraversal(Node<T>* root, vector<Node*> & buffer, T* value = NULL, string instructions = string())
         // Prints the n-ary tree level wise
         // when necessary, can also find all Nodes with a particular value
@@ -347,7 +304,7 @@ class Node
             vector<Node*> buffer;
             T* val = new T(value);
 
-            LevelOrderTraversal(root, buffer, val);
+            LevelArbitraryTraversal(root, buffer, val);
             delete val;
 
             if (buffer.empty())
@@ -363,7 +320,7 @@ class Node
                 throw NodeException("corrupted root passed as an argument.");
 
             vector<Node*> emptyVector;
-            LevelOrderTraversal(root, emptyVector, NULL);
+            LevelArbitraryTraversal(root, emptyVector);
         }
 
         void arbitraryTraversal(Node<T>* root, string instructions)
