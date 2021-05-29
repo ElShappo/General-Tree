@@ -62,7 +62,7 @@ int main()
         root->traversal(root);
 
         cout << endl;
-        root->arbitraryTraversal(root, "[0][3][2][1][0]");
+        root->traversal(root, "[0][3][2][1][0]");
         cout << endl;
 
         root->erase("[0][1][0]");

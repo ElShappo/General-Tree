@@ -299,31 +299,7 @@ class Node
             return temp;
         }
 
-        vector<Node*> findValue(Node* root, T value)
-        {
-            vector<Node*> buffer;
-            T* val = new T(value);
-
-            LevelArbitraryTraversal(root, buffer, val);
-            delete val;
-
-            if (buffer.empty())
-                throw NodeException("couldn't find node with specified value.");
-
-            return buffer;
-        }
-
-        void traversal(Node<T>* root)
-        // incapsulates LevelOrderTraversal
-        {
-            if (root == NULL)
-                throw NodeException("corrupted root passed as an argument.");
-
-            vector<Node*> emptyVector;
-            LevelArbitraryTraversal(root, emptyVector);
-        }
-
-        void arbitraryTraversal(Node<T>* root, string instructions)
+        void traversal(Node<T>* root, string instructions = string() )
         // incapsulates LevelOrderTraversal
         {
             if (root == NULL)
@@ -331,6 +307,20 @@ class Node
 
             vector<Node*> emptyVector;
             LevelArbitraryTraversal(root, emptyVector, NULL, instructions);
+        }
+
+        vector<Node*> findValue(Node* root, T value, string instructions = string() )
+        {
+            vector<Node*> buffer;
+            T* val = new T(value);
+
+            LevelArbitraryTraversal(root, buffer, val, instructions);
+            delete val;
+
+            if (buffer.empty())
+                throw NodeException("couldn't find node with specified value.");
+
+            return buffer;
         }
 
         void push(Node<T>* buffer, string instructions)
