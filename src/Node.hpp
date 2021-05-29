@@ -9,6 +9,22 @@
 
 using namespace std;
 
+bool isEmpty(variant<string, vector<int>> var)
+{
+    if (var.index() == 0)
+    {
+        if (get<string>(var).empty())
+            return true;
+        return false;
+    }
+    else
+    {
+        if (get<vector<int>>(var).empty())
+            return true;
+        return false;
+    }
+}
+
 template <class T>
 class Node
 {
@@ -60,7 +76,7 @@ class Node
                 movePtr(start, path);
         }
 
-        void LevelArbitraryTraversal(Node<T>* root, vector<Node*> & buffer, T* value = NULL, string instructions = string())
+        void LevelArbitraryTraversal(Node<T>* root, vector<Node*> & buffer, T* value = NULL, variant<string, vector<int>> coordinates = variant<string, vector<int>>() )
         // Prints the n-ary tree level wise
         // when necessary, can also find all Nodes with a particular value
         {
@@ -101,10 +117,10 @@ class Node
                     ++iteration;
                     n--;
 
-                    if (iteration == 1 && !instructions.empty() )
+                    if (iteration == 1 && !isEmpty(coordinates) )
+                    // // may also write get<vector<int>> as .empty is present in both STL-containers
                     {
-                        vector<int> path(parseInstructions(instructions));
-
+                        vector<int> path(parseInstructions(coordinates));
                         deque<Node*> newDeque;
                         vector<int> newPath(path); // new path won't contain first "[0]"
                         newPath.erase(newPath.begin());
@@ -131,13 +147,13 @@ class Node
 
     public:
 
-        void erase(string instructions)
+        void erase(variant<string, vector<int> > coordinates)
         // when "[0]" is passed, removes all the children from the root
         {
-            if (instructions.empty())
+            if (isEmpty(coordinates))
                 throw NodeException("empty instructions list passed as an argument.");
 
-            vector<int> path(parseInstructions(instructions));
+            vector<int> path(parseInstructions(coordinates));
             vector<int> parentPath(path);
 
             parentPath.pop_back();
@@ -155,53 +171,13 @@ class Node
             printChildren(buffer);
         }
 
-        void erase(vector<int> path)
+        vector<T> str(variant<string, vector<int> > coordinates)
         {
-            if (path.empty())
-                throw NodeException("empty path passed as an argument.");
-
-            vector<int> parentPath(path);
-
-            parentPath.pop_back();
-
-            if (parentPath.empty())
-            {
-                children.erase(children.begin(), children.end());
-                return;
-            }
-
-            Node* buffer = find(parentPath);
-            printChildren(buffer);
-
-            buffer->eraseChild(path.back());
-            printChildren(buffer);
-        }
-
-        vector<T> str(string instructions)
-        {
-            if (instructions.empty())
+            if (isEmpty(coordinates))
                 throw NodeException("empty instructions list passed as an argument.");
 
             vector<T> str;
-            vector<int> path(parseInstructions(instructions));
-
-            vector<int> new_path;
-
-            for (int i=0; i<path.size(); ++i)
-            {
-                new_path.push_back(path[i]);
-                str.push_back(find(new_path)->getValue());
-            }
-
-            return str;
-        }
-
-        vector<T> str(vector<int> path)
-        {
-            if (path.empty())
-                throw NodeException("empty path passed as an argument.");
-
-            vector<T> str;
+            vector<int> path(parseInstructions(coordinates));
             vector<int> new_path;
 
             for (int i=0; i<path.size(); ++i)
@@ -264,12 +240,12 @@ class Node
             this->value = value;
         }
 
-        Node* find(string instructions)
+        Node* find(variant<string, vector<int> > coordinates)
         {
-            if (instructions.empty())
+            if (isEmpty(coordinates))
                 throw NodeException("empty instructions list passed as an argument.");
 
-            vector<int> path(parseInstructions(instructions));
+            vector<int> path(parseInstructions(coordinates));
 
             Node<T>* temp = this;
 
@@ -280,26 +256,6 @@ class Node
                 path.erase(path.begin() );
                 // deleting first "[0]" from path as we won't use it
 
-                //cout << "This: " << path[0] << endl;
-                movePtr(temp, path);
-                //cout << "0 child: " << temp->getValue() << endl;
-                //cout << "0 child: " << temp->getChild(0)->getValue() << endl;
-            }
-            return temp;
-        }
-
-        Node* find(vector<int> path)
-        {
-            if (path.empty())
-                throw NodeException("empty path passed as an argument.");
-
-            Node<T>* temp = this;
-
-            //if (path.size() == 1)
-                //addChild(buffer);
-            if (path.size() > 1)
-            {
-                path.erase(path.begin() );
                 //cout << "This: " << path[0] << endl;
                 movePtr(temp, path);
                 //cout << "0 child: " << temp->getValue() << endl;
