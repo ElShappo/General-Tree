@@ -61,12 +61,12 @@ int main()
 
         root->traversal(root);
 
-        //cout << endl;
-        //root->arbitraryTraversal(root, "[0][3][2][1][0]");
+        cout << endl;
+        root->arbitraryTraversal(root, "[0][3][2][1][0]");
         cout << endl;
 
         root->erase("[0][1][0]");
-        cout << root->find("[0][1][2]")->getValue() << endl;
+        cout << root->find("[0][1][1]")->getValue() << endl;
 
         root->traversal(root);
     }

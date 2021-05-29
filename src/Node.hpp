@@ -102,11 +102,11 @@ class Node
                 throw NodeException("corrupted root passed as an argument.");
 
             if (!buffer.empty() )
-                throw NodeException("'LevelOrderTraversal' function requires passed buffer to be empty.");
+                throw NodeException("'LevelArbitraryTraversal' function requires passed buffer to be empty.");
 
             // Standard level order traversal code
             // using deque
-            deque<Node *> q;  // Create a deque
+            deque<Node*> q;  // Create a deque
             q.push_back(root); // Enqueue root
             int iteration = 0;
             while (!q.empty())
@@ -118,7 +118,7 @@ class Node
                 {
                     // Dequeue an item from deque and print it
                     Node* p = q.front();
-                    q.pop_back();
+                    q.pop_front();
 
                     if (value != NULL)
                     {
@@ -139,8 +139,23 @@ class Node
                     {
                         vector<int> path(parseInstructions(instructions));
 
+                        deque<Node*> newDeque;
+                        vector<int> newPath(path); // new path won't contain first "[0]"
+                        newPath.erase(newPath.begin());
+
                         for (int i=0; i<q.size(); ++i)
-                            swap(q[i], q[path[i]]);
+                            newDeque.push_back(q[newPath[i]]);
+
+                        q.swap(newDeque);
+
+                        /*
+                        cout << endl << "Printing values from deque: " << endl;
+
+                        for (int i=0; i<q.size(); ++i)
+                            cout << q[i]->getValue() << endl;
+
+                        cout << "End of printing..." << endl;
+                        */
                     }
                 }
                 if (value == NULL)
@@ -297,6 +312,8 @@ class Node
             if (path.size() > 1)
             {
                 path.erase(path.begin() );
+                // deleting first "[0]" from path as we won't use it
+
                 //cout << "This: " << path[0] << endl;
                 movePtr(temp, path);
                 //cout << "0 child: " << temp->getValue() << endl;
@@ -369,7 +386,7 @@ class Node
         }
 
         void push(Node* buffer, vector<int> path)
-        // [0][3][1][2] // 2nd index of first index
+        // [0][3][1][2]
         {
             if (path.empty())
                 throw NodeException("empty path passed as an argument.");
