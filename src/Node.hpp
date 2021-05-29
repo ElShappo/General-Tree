@@ -10,6 +10,7 @@
 using namespace std;
 
 bool isEmpty(variant<string, vector<int>> var)
+// utility function to check whether variable of type 'variant<string, vector<int> >' is empty
 {
     if (var.index() == 0)
     {
@@ -264,22 +265,22 @@ class Node
             return temp;
         }
 
-        void traversal(Node<T>* root, string instructions = string() )
+        void traversal(Node<T>* root, variant<string, vector<int>> coordinates = variant<string, vector<int>>() )
         // incapsulates LevelOrderTraversal
         {
             if (root == NULL)
                 throw NodeException("corrupted root passed as an argument.");
 
             vector<Node*> emptyVector;
-            LevelArbitraryTraversal(root, emptyVector, NULL, instructions);
+            LevelArbitraryTraversal(root, emptyVector, NULL, coordinates);
         }
 
-        vector<Node*> findValue(Node* root, T value, string instructions = string() )
+        vector<Node*> findValue(Node* root, T value, variant<string, vector<int>> coordinates = variant<string, vector<int>>() )
         {
             vector<Node*> buffer;
             T* val = new T(value);
 
-            LevelArbitraryTraversal(root, buffer, val, instructions);
+            LevelArbitraryTraversal(root, buffer, val, coordinates);
             delete val;
 
             if (buffer.empty())
@@ -288,22 +289,13 @@ class Node
             return buffer;
         }
 
-        void push(Node<T>* buffer, string instructions)
+        void push(Node<T>* buffer, variant<string, vector<int> > coordinates)
         // [0][3][1][2] // 2nd index of first index
         {
-            if (instructions.empty())
+            if (isEmpty(coordinates))
                 throw NodeException("empty instructions list passed as an argument.");
 
-            find(instructions)->addChild(buffer);
-        }
-
-        void push(Node* buffer, vector<int> path)
-        // [0][3][1][2]
-        {
-            if (path.empty())
-                throw NodeException("empty path passed as an argument.");
-
-            find(path)->addChild(buffer);
+            find(coordinates)->addChild(buffer);
         }
 };
 
